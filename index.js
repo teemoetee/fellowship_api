@@ -15,7 +15,7 @@ function getConnection() {
         database: 'fellowship'
     })
 }
-//root endpoint
+
 index.get('/', (req, res) => {
     res.send('I AM ROOOOOOOT')
 })
