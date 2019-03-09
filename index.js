@@ -33,7 +33,6 @@ index.get('/streamers', (req, res) => {
             res.sendStatus(500)
             return
           }
-          console.log(rows);
         res.json(rows)
     })
     connection.end();
