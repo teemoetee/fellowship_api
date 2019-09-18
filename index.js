@@ -24,10 +24,10 @@ index.get('/streamers', (req, res) => {
     //res.send('there should be streamers here from mysql')
     const connection = getConnection()
     
-    const quetyString = 'SELECT educators.*, GROUP_CONCAT(DISTINCT streamerlink ORDER BY streamerlink) AS streamerlinks FROM educators LEFT JOIN educatorlinks ON educators.id = educatorlinks.educatorid GROUP BY educators.id ORDER BY educators.field';
+    const queryString = 'SELECT educators.*, GROUP_CONCAT(DISTINCT streamerlink ORDER BY streamerlink) AS streamerlinks FROM educators LEFT JOIN educatorlinks ON educators.id = educatorlinks.educatorid GROUP BY educators.id ORDER BY educators.field';
     //const quetyString = 'SELECT * FROM educators';
 
-    connection.query(quetyString, (err, rows, fields) => {
+    connection.query(queryString, (err, rows, fields) => {
         if (err) {
             console.log("Failed to query for users: " + err)
             res.sendStatus(500)
@@ -37,6 +37,21 @@ index.get('/streamers', (req, res) => {
     })
     connection.end();
 })
+index.get('/streamers/add', (req, res) => {
+    const connection = getConnection();
+    const { name, image } = req.query;
+    const INSERTQUERY = `UPDATE educators SET profileimg = '${image}' WHERE streamername = '${name}'`
+    connection.query(INSERTQUERY, (err) => {
+        if(err) {
+            return res.send(err);
+        }
+        else {
+            return res.send('Successful post');
+        }
+    })
+    connection.end();
+})
+
 index.listen(3003, () =>{
     console.log('Listening on port 3003...')
 })
